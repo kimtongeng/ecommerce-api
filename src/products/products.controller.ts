@@ -6,6 +6,7 @@ import {
   Param,
   Put,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 
@@ -32,7 +33,10 @@ export class ProductsController {
   update(@Param('id') id: string, @Body() body: any) {
     return this.productsService.update(id, body);
   }
-
+  @Get('search')
+  search(@Query() query: any) {
+    return this.productsService.search(query);
+  }
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.productsService.delete(id);

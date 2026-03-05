@@ -7,6 +7,8 @@ import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategyService } from './auth/jwt-strategy/jwt-strategy.service';
 import { ProductsModule } from './products/products.module';
+import { HomeModule } from './home/home.module';
+import { CartModule } from './cart/cart.module';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { ProductsModule } from './products/products.module';
       signOptions: { expiresIn: '1d' },
     }),
     ProductsModule,
+    HomeModule,
+    CartModule,
   ],
   controllers: [AppController],
   providers: [AppService, JwtStrategyService],
