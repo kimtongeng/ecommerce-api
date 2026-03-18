@@ -17,4 +17,18 @@ export class UsersService {
   async findById(id: string) {
     return this.userModel.findById(id).select('-password');
   }
+  async updateRefreshToken(userId: string, refreshToken: string | null) {
+    return this.userModel.findByIdAndUpdate(
+      userId,
+      { refreshToken },
+      { new: true },
+    );
+  }
+  async update(userId: string, data: any) {
+    return this.userModel.findByIdAndUpdate(
+      userId,
+      { $set: data },
+      { new: true },
+    );
+  }
 }

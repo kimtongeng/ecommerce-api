@@ -12,5 +12,6 @@ import { ProductsModule } from 'src/products/products.module';
   ],
   providers: [CartService],
   controllers: [CartController],
+  exports: [CartService],
 })
 export class CartModule {}

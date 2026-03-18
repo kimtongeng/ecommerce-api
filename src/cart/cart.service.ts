@@ -26,6 +26,10 @@ export class CartService {
   }
 
   async addToCart(userId: string, productId: string, quantity = 1) {
+    if (quantity <= 0) {
+      throw new Error('Quantity must be greater than 0');
+    }
+
     let cart = await this.cartModel.findOne({ userId });
 
     if (!cart) {
@@ -35,10 +39,12 @@ export class CartService {
       });
     }
 
-    const item = cart.items.find((i) => i.productId.toString() === productId);
+    const existingItem = cart.items.find((item) =>
+      item.productId.equals(productId),
+    );
 
-    if (item) {
-      item.quantity += quantity;
+    if (existingItem) {
+      existingItem.quantity += quantity;
     } else {
       cart.items.push({
         productId: new Types.ObjectId(productId),
@@ -48,7 +54,7 @@ export class CartService {
 
     await cart.save();
 
-    return cart;
+    return this.cartModel.findById(cart._id).populate('items.productId');
   }
 
   async updateQuantity(userId: string, productId: string, quantity: number) {

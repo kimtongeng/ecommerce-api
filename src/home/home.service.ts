@@ -1,20 +1,27 @@
 import { Injectable } from '@nestjs/common';
 import { ProductsService } from '../products/products.service';
+import { CategoriesService } from '../categories/categories.service';
 
 @Injectable()
 export class HomeService {
-  constructor(private readonly productsService: ProductsService) {}
+  constructor(
+    private readonly productsService: ProductsService,
+    private readonly categoriesService: CategoriesService,
+  ) {}
 
   async getHomeData() {
-    const flashSale = await this.productsService.getFlashSaleProducts();
-    const recommended = await this.productsService.getRecommendedProducts();
+    const [flashSale, recommended, categories] = await Promise.all([
+      this.productsService.getFlashSaleProducts(),
+      this.productsService.getRecommendedProducts(),
+      this.categoriesService.findAll(),
+    ]);
 
     return {
       banner: {
         title: 'Summer Collection',
         buttonText: 'Shop Now',
       },
-      categories: ['Clothing', 'Shoes', 'Accessories', 'Home'],
+      categories,
       flashSale,
       recommended,
     };
