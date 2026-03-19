@@ -19,6 +19,7 @@ export class HomeService {
     return {
       banner: {
         title: 'Summer Collection',
+        image:"Image.png",
         buttonText: 'Shop Now',
       },
       categories,

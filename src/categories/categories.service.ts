@@ -28,7 +28,7 @@ export class CategoriesService {
 
   async update(id: string, data: any) {
     const category = await this.categoryModel.findByIdAndUpdate(id, data, {
-      new: true,
+      returnDocument: 'after', // replaces { new: true }
     });
 
     if (!category) throw new NotFoundException('Category not found');
